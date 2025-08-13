@@ -1,4 +1,6 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import PageTransition from '@/app/components/PageTransition'
+import { AppNavbar } from '@/app/components/navbar'
+import { Geist, Paytone_One } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -6,9 +8,10 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const paytoneOne = Paytone_One({
+  variable: "--font-paytone-one",
   subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata = {
@@ -20,9 +23,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${paytoneOne.variable} antialiased`}
       >
-        {children}
+        <PageTransition>
+          <AppNavbar className="sticky top-0 z-50" />
+          {children}
+        </PageTransition>
       </body>
     </html>
   );
