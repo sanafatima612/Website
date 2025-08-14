@@ -91,15 +91,18 @@ export default function PageTransition({ children }) {
                 // fill: 'transparent',
                 // duration: 0.5,
                 // ease: "power2.out",
-            }, "-=0.25").to(logoRef.current.querySelector('path'), {
+            }, "-=0.25")
+            .to(logoRef.current.querySelector('path'), {
                 strokeDashoffset: 0,
                 duration: 2,
                 ease: "power2.inOut",
-            }, "-=0.5").to(logoRef.current.querySelector('path'), {
+            }, "-=0.5")
+            .to(logoRef.current.querySelector('path'), {
                 fill: "#e3e4d8",
-                duration: 1,
+                duration: .5,
                 ease: "power2.out",
-            }, "-=0.5").to(logoOverlayRef.current, { opacity: 0, duration: 0.25, ease: "power2.out" });
+            }, "-=0.5")
+            .to(logoOverlayRef.current, { opacity: 0, duration: 0.25, ease: "power2.out" });
     }
 
     const revealPage = () => {
@@ -127,9 +130,9 @@ export default function PageTransition({ children }) {
         <>
             <div ref={overlayRef} className="transition-overlay"></div>
             <div ref={logoOverlayRef} className="logo-overlay"></div>
-            {/* <div className="w-full h-full flex items-center justify-center"> */}
-            <Logo ref={logoRef} />
-            {/* </div> */}
+            <div className="absolute inset-0 flex items-center justify-center z-20">
+                <Logo ref={logoRef} />
+            </div>
             {children}
         </>
     )

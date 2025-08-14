@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${paytoneOne.variable} antialiased`}
       >
         <PageTransition>
-          <AppNavbar className="sticky top-0 z-50" />
+          <AppNavbar className="" />
           {children}
         </PageTransition>
       </body>
