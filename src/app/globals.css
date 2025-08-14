@@ -25,46 +25,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.transition-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100svh;
-  display: flex;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.block {
-  flex: 1;
-  height: 100%;
-  background-color: #222;
-  transform: scaleX(0);
-  transform-origin: left;
-  /* transition: transform 0.5s ease-in-out; */
-}
-
-.logo-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100svh;
-  display: flex;
-  pointer-events: none;
-  z-index: 2;
-  justify-content: center;
-  align-items: center;
-  background-color: #222;
-  opacity: 0;
-}
-
-.logo-container {
-  padding: 20px;
-  width: 200px;
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.clip-path-mypolygon {
+  clip-path: polygon(25% 25%, 75% 40%, 100% 100%, 0% 100%);
 }

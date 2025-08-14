@@ -1,9 +1,9 @@
 'use client'
 import Logo from "./Logo"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useRouter, usePathname } from 'next/navigation'
 import { gsap } from 'gsap'
-
+import { cn } from "@/utils/utils"
 
 export default function PageTransition({ children }) {
     const router = useRouter();
@@ -13,6 +13,8 @@ export default function PageTransition({ children }) {
     const logoRef = useRef(null);
     const blocksRef = useRef([]);
     const isTransitioning = useRef(false);
+    // Add state to trigger re-renders when transitioning state changes
+    const [transitioning, setTransitioning] = useState(false);
 
     useEffect(() => {
 
@@ -23,7 +25,8 @@ export default function PageTransition({ children }) {
 
             for (let i = 0; i < 20; i++) {
                 const block = document.createElement("div");
-                block.className = 'block';
+                block.className = 'flex-1 min-h-screen bg-[#222] scale-x-0 transform-origin-left';
+
                 overlayRef.current.appendChild(block);
                 blocksRef.current.push(block);
             }
@@ -50,6 +53,8 @@ export default function PageTransition({ children }) {
         const handleRouteChange = (url) => {
             if (isTransitioning.current) return;
             isTransitioning.current = true;
+            // Update state to trigger re-render
+            setTransitioning(true);
             coverPage(url);
         }
 
@@ -108,9 +113,6 @@ export default function PageTransition({ children }) {
     const revealPage = () => {
         gsap.set(blocksRef.current, {
             scaleX: 1,
-            // stagger: 0.02,
-            // duration: 0.4,
-            // ease: "power2.out",
             transformOrigin: "right",
         });
         gsap.to(blocksRef.current, {
@@ -120,20 +122,31 @@ export default function PageTransition({ children }) {
             ease: 'power2.out',
             transformOrigin: 'right',
             onComplete: () => {
-                isTransitioning.current = false
+                isTransitioning.current = false;
+                // Update state to trigger re-render
+                setTransitioning(false);
             }
         })
     }
-
-
     return (
         <>
-            <div ref={overlayRef} className="transition-overlay"></div>
-            <div ref={logoOverlayRef} className="logo-overlay"></div>
-            <div className="absolute inset-0 flex items-center justify-center z-20">
+            {/* Increase z-index for overlays */}
+            <div ref={overlayRef} className="fixed top-0 left-0 w-full min-h-screen flex pointer-events-none z-10"></div>
+            <div ref={logoOverlayRef} className="fixed top-0 left-0 w-full min-h-screen flex pointer-events-none z-10 justify-center items-center bg-[#222] opacity-0"></div>
+
+            <div className={cn("absolute inset-0 flex items-center justify-center", {
+                "z-20": !transitioning,
+                "z-10": transitioning
+            })}>
                 <Logo ref={logoRef} />
             </div>
-            {children}
+            {/* Use state variable instead of ref for consistent rendering */}
+            <div className={cn("relative", {
+                "z-30": !transitioning, // Higher z-index to ensure clickability
+                "z-5": transitioning
+            })}>
+                {children}
+            </div>
         </>
     )
 }
