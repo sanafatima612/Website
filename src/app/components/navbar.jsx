@@ -19,8 +19,8 @@ export function AppNavbar() {
             link: "/",
         },
         {
-            name: "Blocks",
-            link: "/blocks",
+            name: "Works",
+            link: "/works",
         },
         {
             name: "Contact",
@@ -32,14 +32,14 @@ export function AppNavbar() {
 
     return (
         // <div className="relative w-full">
-        <Navbar>
+        <Navbar className={'font-mono'}>
             {/* Desktop Navigation */}
             <NavBody>
                 <NavbarLogo />
                 <NavItems items={navItems} />
                 <div className="flex items-center gap-4">
                     <NavbarButton variant="secondary">Login</NavbarButton>
-                    <NavbarButton variant="primary">Book a call</NavbarButton>
+                    <NavbarButton variant="dark">Book a call</NavbarButton>
                 </div>
             </NavBody>
 

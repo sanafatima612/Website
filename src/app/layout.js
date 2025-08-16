@@ -1,5 +1,6 @@
-import PageTransition from '@/app/components/PageTransition'
-import { AppNavbar } from '@/app/components/navbar'
+import PageTransition from '@/app/components/PageTransition';
+import LenisProvider from '@/app/components/LenisProvider';
+import { AppNavbar } from '@/app/components/navbar';
 import { Geist, Paytone_One } from "next/font/google";
 import "./globals.css";
 
@@ -25,10 +26,12 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${paytoneOne.variable} antialiased`}
       >
-        <PageTransition>
-          <AppNavbar className="" />
-          {children}
-        </PageTransition>
+        <LenisProvider>
+          <PageTransition>
+            <AppNavbar className="" />
+            {children}
+          </PageTransition>
+        </LenisProvider>
       </body>
     </html>
   );
