@@ -24,11 +24,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${paytoneOne.variable} antialiased`}
+        className={`${geistSans.variable} ${paytoneOne.variable} antialiased container w-full h-screen mx-auto`}
       >
         <LenisProvider>
           <PageTransition>
-            <AppNavbar className="" />
+            <AppNavbar />
             {children}
           </PageTransition>
         </LenisProvider>
