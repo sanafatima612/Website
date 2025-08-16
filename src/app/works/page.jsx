@@ -210,7 +210,7 @@ const WorkItem = ({ item, className = "" }) => (
                 className="w-full h-screen object-cover"
             />
         </div>
-        <h1 className="text-white font-mono text-5xl font-bold uppercase absolute top-1/3 left-1/3 transform-[translate(-50%, -50%)] w-full">
+        <h1 className="text-white font-mono text-center text-5xl md:text-6xl lg:text-9xl font-bold uppercase absolute top-1/3 left-1/3 transform-[translate(-50%, -50%)] w-full">
             {item.title}
         </h1>
     </section>
@@ -224,7 +224,7 @@ const HeroSection = ({
     className = ""
 }) => (
     <section className={`relative flex flex-col w-full min-h-screen items-center justify-center ${className}`}>
-        <h1 className="font-mono text-9xl font-bold uppercase">
+        <h1 className="font-mono text-center text-5xl md:text-6xl lg:text-9xl font-bold uppercase">
             {title}
         </h1>
         <Link href={buttonHref} className="pt-7">
@@ -241,7 +241,7 @@ const FooterSection = ({
     className = ""
 }) => (
     <section className={`relative w-full overflow-hidden flex flex-col min-h-screen items-center justify-center ${className}`}>
-        <h1 className="font-mono text-9xl font-bold uppercase">
+        <h1 className="font-mono text-center text-5xl md:text-6xl lg:text-9xl font-bold uppercase">
             {title}
         </h1>
     </section>
