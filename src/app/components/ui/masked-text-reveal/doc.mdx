@@ -1,0 +1,283 @@
+---
+title: MaskedTextReveal
+description: A reusable GSAP SplitText-powered headline animation that triggers on scroll.
+mode: "wide"
+---
+
+import { MaskedTextReveal } from "@/components/animations/MaskedTextReveal";
+
+# MaskedTextReveal
+
+A **React 19 + GSAP** component that reveals text with **SplitText** when it scrolls into view.  
+Supports line, word, or letter stagger animations using `@gsap/react`.
+
+---
+
+## ✨ Features
+
+- Built with **GSAP SplitText** + `ScrollTrigger`
+- Custom ease (`osmo-ease`)
+- Auto-triggers when the component enters the viewport
+- Option to **animate once** or reset on re-enter
+- Container and heading fully customizable via props
+- Works with Tailwind CSS
+
+---
+
+```tsx MaskedTextReveal.tsx
+"use client";
+
+import { useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+import SplitText from "gsap/SplitText";
+import CustomEase from "gsap/CustomEase";
+import ScrollTrigger from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(SplitText, CustomEase, ScrollTrigger);
+CustomEase.create("osmo-ease", "0.625, 0.05, 0, 1");
+
+interface MaskedTextRevealProps {
+  text: string;
+  initialMode?: "lines" | "words" | "letters";
+  className?: string;
+  containerClassName?: string;
+  triggerOnce?: boolean;
+  delay?: number;
+}
+
+export function MaskedTextReveal({
+  text,
+  initialMode = "lines",
+  className = "",
+  containerClassName = "",
+  triggerOnce = true,
+  delay = 0,
+}: MaskedTextRevealProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const [currentTween, setCurrentTween] = useState<gsap.core.Tween | null>(
+    null
+  );
+  const [currentTargets, setCurrentTargets] =
+    useState<NodeListOf<Element> | null>(null);
+
+  const config = {
+    lines: { duration: 0.8, stagger: 0.08 },
+    words: { duration: 0.6, stagger: 0.06 },
+    letters: { duration: 0.4, stagger: 0.008 },
+  };
+
+  useGSAP(
+    () => {
+      if (!headingRef.current) return;
+
+      // Split text into lines, words, and letters
+      SplitText.create(headingRef.current, {
+        type: "lines, words, chars",
+        mask: "lines",
+        linesClass: "line",
+        wordsClass: "word",
+        charsClass: "letter",
+      });
+
+      animate(initialMode);
+    },
+    { scope: containerRef }
+  );
+
+  function animate(type: "lines" | "words" | "letters") {
+    if (!headingRef.current) return;
+    if (currentTween) {
+      currentTween.kill();
+      currentTargets && gsap.set(currentTargets, { yPercent: 0 });
+    }
+
+    const { duration, stagger } = config[type];
+    const className =
+      type === "lines" ? "line" : type === "words" ? "word" : "letter";
+
+    const targets = headingRef.current.querySelectorAll(`.${className}`);
+    setCurrentTargets(targets);
+
+    const tween = gsap.fromTo(
+      targets,
+      { yPercent: 110 },
+      {
+        yPercent: 0,
+        duration,
+        stagger,
+        delay,
+        ease: "osmo-ease",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%", // trigger when top enters 80% viewport height
+          toggleActions: triggerOnce
+            ? "play none none none"
+            : "play none none reset",
+        },
+      }
+    );
+
+    setCurrentTween(tween);
+  }
+
+  return (
+    <section
+      ref={containerRef}
+      className={`flex min-h-screen items-center justify-center ${containerClassName}`}
+    >
+      <h1
+        ref={headingRef}
+        className={`text-center text-[3.75vw] font-medium leading-[1.15] ${className}`}
+      >
+        {text}
+      </h1>
+    </section>
+  );
+}
+```
+
+```jsx MaskedTextReveal.jsx
+"use client"
+import { useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+import SplitText from "gsap/SplitText";
+import CustomEase from "gsap/CustomEase";
+import ScrollTrigger from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(SplitText, CustomEase, ScrollTrigger);
+CustomEase.create("osmo-ease", "0.625, 0.05, 0, 1");
+
+export function MaskedTextReveal({
+  text,
+  initialMode = "lines",
+  className = "",
+  containerClassName = "",
+  triggerOnce = true,
+  delay = 0,
+}) {
+  const containerRef = useRef < HTMLDivElement > null;
+  const headingRef = useRef < HTMLHeadingElement > null;
+  const [currentTween, setCurrentTween] = useState(null);
+  const [currentTargets, setCurrentTargets] = useState(null);
+
+  const config = {
+    lines: { duration: 0.8, stagger: 0.08 },
+    words: { duration: 0.6, stagger: 0.06 },
+    letters: { duration: 0.4, stagger: 0.008 },
+  };
+
+  useGSAP(
+    () => {
+      if (!headingRef.current) return;
+
+      // Split text into lines, words, and letters
+      SplitText.create(headingRef.current, {
+        type: "lines, words, chars",
+        mask: "lines",
+        linesClass: "line",
+        wordsClass: "word",
+        charsClass: "letter",
+      });
+
+      animate(initialMode);
+    },
+    { scope: containerRef }
+  );
+
+  function animate(type) {
+    if (!headingRef.current) return;
+    if (currentTween) {
+      currentTween.kill();
+      currentTargets && gsap.set(currentTargets, { yPercent: 0 });
+    }
+
+    const { duration, stagger } = config[type];
+    const className =
+      type === "lines" ? "line" : type === "words" ? "word" : "letter";
+
+    const targets = headingRef.current.querySelectorAll(`.${className}`);
+    setCurrentTargets(targets);
+
+    const tween = gsap.fromTo(
+      targets,
+      { yPercent: 110 },
+      {
+        yPercent: 0,
+        duration,
+        stagger,
+        delay,
+        ease: "osmo-ease",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%", // trigger when top enters 80% viewport height
+          toggleActions: triggerOnce
+            ? "play none none none"
+            : "play none none reset",
+        },
+      }
+    );
+
+    setCurrentTween(tween);
+  }
+
+  return (
+    <section
+      ref={containerRef}
+      className={`flex min-h-screen items-center justify-center ${containerClassName}`}
+    >
+      <h1
+        ref={headingRef}
+        className={`text-center text-[3.75vw] font-medium leading-[1.15] ${className}`}
+      >
+        {text}
+      </h1>
+    </section>
+  );
+}
+```
+
+## 📦 Usage
+
+```tsx
+import { MaskedTextReveal } from "@/components/animations/MaskedTextReveal";
+
+export default function Example() {
+  return (
+    <div className="space-y-32">
+      <p className="text-gray-600">Scroll down to reveal...</p>
+
+      <MaskedTextReveal
+        text="We’re using GSAP’s SplitText to break this content into lines, words, and characters."
+        initialMode="letters"
+        className="text-purple-900"
+        containerClassName="bg-gray-100 py-20"
+        triggerOnce={true}
+      />
+    </div>
+  );
+}
+```
+
+---
+
+## ⚙️ Props
+
+| Prop                | Type                        | Default    | Description                              |
+|---------------------|-----------------------------|------------|------------------------------------------|
+| `text`              | `string`                   | required   | The text to animate                      |
+| `initialMode`       | `"lines" \| "words" \| "letters"` | `"lines"`  | The type of split animation to run       |
+| `className`         | `string`                   | `""`       | Extra Tailwind classes for the `<h1>`    |
+| `containerClassName`| `string`                   | `""`       | Extra Tailwind classes for the `<section>` |
+| `triggerOnce`       | `boolean`                  | `true`     | If true, animation runs once. If false, it resets when re-entering viewport |
+| `delay`             | `number`                   | `0`        | Delay before animation starts (in seconds) |
+
+---
+
+## 🛠️ Implementation Notes
+
+- Uses `ScrollTrigger` to fire the animation when the component enters the viewport.
+- Default trigger position: **top of container hits 80% viewport height**.
+- Set `triggerOnce={false}` for repeating animations on scroll re-entry.
