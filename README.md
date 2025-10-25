@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# MIUX Studio Portfolio Website
+
+A complete single-page portfolio website for MIUX Studio, a UX/UI design boutique. Built with Next.js 15, featuring elegant animations, smooth scrolling, and a responsive design with a sophisticated beige and brown color scheme.
+
+## Features
+
+- **Responsive Design**: Mobile-first approach with breakpoints at 320px, 768px, and 1024px
+- **Smooth Scrolling**: CSS smooth scroll behavior with JavaScript fallback for anchor links
+- **Scroll Animations**: Intersection Observer API for fade-in effects on scroll
+- **Typography**: Playfair Display for headings, Inter for body text
+- **Color Scheme**: Beige background (#f0e6d2), dark brown text (#2c1810)
+- **Performance Optimized**: Next.js Image optimization, lazy loading for below-fold content
+- **SEO Ready**: Proper meta tags, semantic HTML, and descriptive alt texts
+
+## Sections
+
+1. **Hero Section**: Full-viewport introduction with studio name and contact
+2. **Mission Section**: Services overview with 4-column grid (responsive)
+3. **Featured Work**: Portfolio showcase with project highlights
+4. **Process Section**: Two-column design process explanation
+5. **Testimonials**: Client feedback with profile images
+6. **About Section**: Studio information and mission statement
+7. **Contact/Footer**: Call-to-action and footer information
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install
+# or
+pnpm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
 # or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to view the site.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Build for production:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+This site is optimized for deployment to:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Vercel**: Push to GitHub and connect to Vercel for automatic deployments
+- **Netlify**: Build command: `npm run build`, Publish directory: `.next`
+- **Other platforms**: Any platform that supports Next.js static exports
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+src/
+├── app/
+│   ├── components/      # Reusable components (navbar, transitions)
+│   ├── contact/         # Contact page
+│   ├── works/           # Works page
+│   ├── globals.css      # Global styles
+│   ├── layout.js        # Root layout with fonts
+│   └── page.js          # Homepage
+└── utils/               # Utility functions
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Technologies
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Next.js 15.4.6
+- React 19.1.0
+- Tailwind CSS 4
+- GSAP 3.13.0
+- Lenis 1.3.8 (smooth scroll)
+- Google Fonts (Playfair Display, Inter)
